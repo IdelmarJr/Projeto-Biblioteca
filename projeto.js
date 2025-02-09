@@ -1,5 +1,6 @@
 let livros = [];
 let usuarios = [];
+let emprestimo = [];
 
 //Menu de opções
 menu:
