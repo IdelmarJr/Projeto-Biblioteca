@@ -8,7 +8,7 @@ while (true){
     const menu = `
     Selecione uma das opções:
     1 - Cadastrar livro:
-    2 - Cadrastrar Usuário:
+    2 - Cadastrar Usuário:
     3 - Realizar empréstimos de livros:
     4 - Registrar devoluções de livros:
     5 - Calcular multas por atraso na devolução:
@@ -18,7 +18,7 @@ while (true){
     const opcao = parseInt(prompt(menu));
     switch (opcao){
         case 1:
-            add();
+            addLivros();
             break;
         case 2: 
             addUser();
@@ -43,7 +43,7 @@ while (true){
 };
 
 //Funções
-function add(){};
+function addLivros(){};
 
 function addUser(){};
 
