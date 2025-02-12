@@ -31,6 +31,6 @@ function listarUsuarios() {
 cadastrarUsuario("Ana", "ana@email.com", "11987654321");
 cadastrarUsuario("Carlos", "carlos@email.com", "11912345678");
 listarUsuarios();
-adicionarLivro("O Hobbit", "J.R.R. Tolkien");
-adicionarLivro("1984", "George Orwell");
+adicionarLivro('Js','Jesiel');
+adicionarLivro('Python', 'Joao Paulo');
 listarLivros();
