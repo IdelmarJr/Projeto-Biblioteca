@@ -84,21 +84,22 @@ function listarUsuarios() {
         console.log(`${index + 1}. ${usuario.nome} - ${usuario.email} - ${usuario.telefone}`);
     });
 };
-
-function emprestimos(){
+//Falta correções
+function emprestimos() {
     console.log('Selecione o titulo do livro a ser emprestado: *ATENÇÃO O PRAZO PARA DEVOLUÇÃO É DE 7 DIAS, AO PASSAR DESSE PRAZO ACARRETARA EM MULTA NO VALOR DE 1 REAL O DIA.');
-    let Emprestado = {
-        nome: prompt('Digite seu nome: '),
-        livro: prompt('Digite o titulo do livro: '),
-    };
-    const nome = Emprestado.nome.indexOf(usuarios);//findIndex
-    const by = Emprestado.livro.indexOf(biblioteca);//findIndex
-    if (nome && by === -1){
-        console.log('Nome e Titulo não encontrado.');
+    let nome = prompt('Digite seu nome: ');
+    let nomeIndex = usuarios.findIndex((nomeObj) => nomeObj.nome === nome);
+    if (nomeIndex !== -1) {
+        let livro = prompt('Digite o titulo do livro: ');
+        if (nome && livro === -1) {
+            console.log('Nome e Titulo não encontrado.');
+        } else {
+            livrosEmprestados.push(Emprestado);
+            console.log('Emprestimos realizado com sucesso, consulte a opção: Relatórios para mais informações.');
+        };
     } else {
-        livrosEmprestados.push(Emprestado);
-        console.log('Emprestimos realizado com sucesso, consulte a opção: Relatórios para mais informações.');
-    };
+
+    }
 };
 
 function listarEmprestimos(){
