@@ -142,7 +142,8 @@ function calcular(){
     livrosEmprestados.forEach(a => {
         const dateDevolucao = new Date(a.dataEmprestimo);
         dateDevolucao.setDate(dateDevolucao.getDate() + 7);
-        const {nome, livro} = a
+        const {nome, livro} = a;
+
         if(atual > dateDevolucao){
             const atraso = Math.ceil((atual - dateDevolucao) / (1000 * 60 * 60 * 24));
             const multa = atraso * 1;
@@ -155,12 +156,12 @@ function calcular(){
         };
     });
 };
-//Exibe a multa
+//Exibe a multa -- falta terminar
 function addMultas(){
     const multa = addMulta;
     return multa;
 };
-//Exibe se o usuario esta em dia
+//Exibe se o usuario esta em dia -- falta terminar
 function emdia(){
     const emdia = quitado;
     return emdia;
