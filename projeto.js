@@ -1,6 +1,9 @@
+//arrays
 const biblioteca = [];
 const usuarios = [];
 const livrosEmprestados = [];
+const addMulta = [];
+const quitado = [];
 //Menu de opções
 menu:
 while (true){
@@ -51,6 +54,7 @@ while (true){
 };
 
 //Funções
+//Adicionar livros
 function adicionarLivro() {
     let livro = { 
         titulo: prompt('Digite o Titulo do Livro: '),
@@ -59,7 +63,7 @@ function adicionarLivro() {
     biblioteca.push(livro);
     console.log(`Livro "${livro.titulo}" adicionado!`);
 };
-
+//Exibir livros
 function listarLivros() {
     console.log("\nLista de Livros:");
     biblioteca.forEach((livro, index) => {
@@ -67,7 +71,7 @@ function listarLivros() {
         console.log(`${index + 1}. ${livro.titulo} - ${livro.autor} (${status})`);
     });
 };
-
+//Adicionar usuarios
 function cadastrarUsuario() {
     let usuario = { 
         nome: prompt('Digite seu nome: '),
@@ -77,45 +81,97 @@ function cadastrarUsuario() {
     usuarios.push(usuario);
     console.log(`Usuário "${usuario.nome}" cadastrado com sucesso!`);
 };
-
+//Exibir lista de usuarios
 function listarUsuarios() {
     console.log("\nLista de Usuários:");
     usuarios.forEach((usuario, index) => {
         console.log(`${index + 1}. ${usuario.nome} - ${usuario.email} - ${usuario.telefone}`);
     });
 };
-//Falta correções
+//Livros emprestados
 function emprestimos() {
     console.log('Selecione o titulo do livro a ser emprestado: *ATENÇÃO O PRAZO PARA DEVOLUÇÃO É DE 7 DIAS, AO PASSAR DESSE PRAZO ACARRETARA EM MULTA NO VALOR DE 1 REAL O DIA.');
     let nome = prompt('Digite seu nome: ');
-    let nomeIndex = usuarios.findIndex((nomeObj) => nomeObj.nome === nome);
-    if (nomeIndex !== -1) {
-        let livro = prompt('Digite o titulo do livro: ');
-        if (nome && livro === -1) {
-            console.log('Nome e Titulo não encontrado.');
-        } else {
-            livrosEmprestados.push(Emprestado);
-            console.log('Emprestimos realizado com sucesso, consulte a opção: Relatórios para mais informações.');
-        };
-    } else {
-
-    }
+    let nomeIndex = usuarios.find((nomeObj) => nomeObj.nome === nome);
+    if (!nomeIndex) {
+        console.log('Nome do usuario não encontrado.');
+        return;
+    };
+    let livro = prompt('Digite o titulo do livro: ');
+    let livroIndex = biblioteca.find((livroObj) => livroObj.titulo === livro && livroObj.disponivel);
+    if (!livroIndex) {
+          console.log('Titulo não encontrado.');
+          return;
+    };
+    
+    livroIndex.disponivel = false;
+    livrosEmprestados.push({nome: nome, livro: livro, dataEmprestimo: new Date()});
+        console.log('Emprestimos realizado com sucesso, consulte a opção "Exibir Relatórios (8)" para mais informações.');
 };
-
+//Exibir emprestimos
 function listarEmprestimos(){
     console.log('\nLista de Empréstimos:');
     livrosEmprestados.forEach((emprestimo, index) => {
         console.log(`${index + 1}. ${emprestimo.nome} - ${emprestimo.livro}`);   
     });
 };
-
+//Devoluções dos emprestimos
 function devolucoes(){
+    const nome = prompt('Digite seu nome de usuario: ');
+    const livro = prompt('Digite o titulo do livro: ');
 
+    const devolucoesIndex = livrosEmprestados.findIndex(a => a.nome === nome && a.livro === livro);
+    if(devolucoesIndex === -1){
+        console.log('Emprestido não encontrado.');
+    };
+
+    let tituloIndex = biblioteca.find(b => b.titulo === livro);
+    tituloIndex.disponivel = true;
+    livrosEmprestados.splice(devolucoesIndex, 1);
+    console.log(`Devolução realizada.`);
 };
+//Calcula o prazo para a devolução dos emprestimos e a multa por atraso
+function calcular(){
+    const atual = new Date();
 
-function calcular(){};
+    if (livrosEmprestados.length === 0) {
+        console.log("Nenhum livro emprestado para calcular.");
+        return;
+    };
 
+    livrosEmprestados.forEach(a => {
+        const dateDevolucao = new Date(a.dataEmprestimo);
+        dateDevolucao.setDate(dateDevolucao.getDate() + 7);
+        const {nome, livro} = a
+        if(atual > dateDevolucao){
+            const atraso = Math.ceil((atual - dateDevolucao) / (1000 * 60 * 60 * 24));
+            const multa = atraso * 1;
+            console.log(`Em atraso:
+                Usuario: ${nome} - Livro: ${livro} - Multa: R$${multa}`);
+                addMulta.push({nome, livro, multa});
+        } else {
+            console.log(`Usuario: ${nome} - Livro: ${livro}. Em dia.`);
+            quitado.push({nome: nome, livro});
+        };
+    });
+};
+//Exibe a multa
+function addMultas(){
+    const multa = addMulta;
+    return multa;
+};
+//Exibe se o usuario esta em dia
+function emdia(){
+    const emdia = quitado;
+    return emdia;
+}
+//Relatorio das funções
 function relatorios(){
+    console.log('*** Relatórios ***' );
+    listarLivros();
     listarEmprestimos();
+    listarUsuarios();
+    addMultas();
+    emdia();
 };
 
