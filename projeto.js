@@ -56,8 +56,8 @@ while (true){
 //Adicionar livros
 function adicionarLivro() {
     let livro = { 
-        titulo: prompt('Digite o Titulo do Livro: '),
-        autor: prompt('Digite o nome do Autor: '),
+        titulo: prompt('Digite o Titulo do Livro: ').toLocaleUpperCase(),
+        autor: prompt('Digite o nome do Autor: ').toLocaleUpperCase(),
         disponivel: true };
     biblioteca.push(livro);
     console.log(`Livro "${livro.titulo}" adicionado!`);
@@ -73,9 +73,9 @@ function listarLivros() {
 //Adicionar usuarios
 function cadastrarUsuario() {
     let usuario = { 
-        nome: prompt('Digite seu nome: '),
-        email: prompt('Digite seu email: '), 
-        telefone: prompt('Digite seu contato(número de celular): '),
+        nome: prompt('Digite seu nome: ').toLocaleUpperCase(),
+        email: prompt('Digite seu email: ').toLocaleUpperCase(), 
+        telefone: Number(prompt('Digite seu contato(número de celular): ')),
     };
     usuarios.push(usuario);
     console.log(`Usuário "${usuario.nome}" cadastrado com sucesso!`);
@@ -90,13 +90,13 @@ function listarUsuarios() {
 //Livros emprestados
 function emprestimos() {
     console.log('Selecione o titulo do livro a ser emprestado: *ATENÇÃO O PRAZO PARA DEVOLUÇÃO É DE 7 DIAS, AO PASSAR DESSE PRAZO ACARRETARA EM MULTA NO VALOR DE 1 REAL O DIA.');
-    let nome = prompt('Digite seu nome: ');
+    let nome = prompt('Digite seu nome: ').toLocaleUpperCase();
     let nomeIndex = usuarios.find((nomeObj) => nomeObj.nome === nome);
     if (!nomeIndex) {
         console.log('Nome do usuario não encontrado.');
         return;
     };
-    let livro = prompt('Digite o titulo do livro: ');
+    let livro = prompt('Digite o titulo do livro: ').toLocaleUpperCase();
     let livroIndex = biblioteca.find((livroObj) => livroObj.titulo === livro && livroObj.disponivel);
     if (!livroIndex) {
           console.log('Titulo não encontrado.');
@@ -119,8 +119,8 @@ function listarEmprestimos(){
 };
 //Devoluções dos emprestimos
 function devolucoes(){
-    const nome = prompt('Digite seu nome de usuario: ');
-    const livro = prompt('Digite o titulo do livro: ');
+    const nome = prompt('Digite seu nome de usuario: ').toLocaleUpperCase();
+    const livro = prompt('Digite o titulo do livro: ').toLocaleUpperCase();
     const devolucoesIndex = livrosEmprestados.findIndex(a => a.nome === nome && a.livro === livro);
 
     if(devolucoesIndex === -1){
@@ -146,7 +146,7 @@ function calcular(){
 
     livrosEmprestados.forEach(a => {
         const dateDevolucao = new Date(a.dataEmprestimo);
-        dateDevolucao.setDate(dateDevolucao.getDate() + 7);
+        dateDevolucao.setDate(dateDevolucao.getDate() + 0);
         const {nome, livro} = a;
 
         if(atual > dateDevolucao){
