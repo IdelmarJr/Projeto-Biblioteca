@@ -52,7 +52,6 @@ while (true){
             console.log('Opção inválida.');
     };
 };
-
 //Funções
 //Adicionar livros
 function adicionarLivro() {
@@ -103,7 +102,6 @@ function emprestimos() {
           console.log('Titulo não encontrado.');
           return;
     };
-    
     livroIndex.disponivel = false;
     livrosEmprestados.push({nome: nome, livro: livro, dataEmprestimo: new Date()});
         console.log('Emprestimos realizado com sucesso, consulte a opção "Exibir Relatórios (8)" para mais informações.');
@@ -111,6 +109,10 @@ function emprestimos() {
 //Exibir emprestimos
 function listarEmprestimos(){
     console.log('\nLista de Empréstimos:');
+    if (livrosEmprestados.length === 0){
+        console.log('Nenhum Emprestimo ativo.')
+        return;
+    };
     livrosEmprestados.forEach((emprestimo, index) => {
         console.log(`${index + 1}. ${emprestimo.nome} - ${emprestimo.livro}`);   
     });
@@ -119,25 +121,28 @@ function listarEmprestimos(){
 function devolucoes(){
     const nome = prompt('Digite seu nome de usuario: ');
     const livro = prompt('Digite o titulo do livro: ');
-
     const devolucoesIndex = livrosEmprestados.findIndex(a => a.nome === nome && a.livro === livro);
+
     if(devolucoesIndex === -1){
         console.log('Emprestido não encontrado.');
+        return;
     };
-
     let tituloIndex = biblioteca.find(b => b.titulo === livro);
     tituloIndex.disponivel = true;
+    //Remove do emprestimo
     livrosEmprestados.splice(devolucoesIndex, 1);
     console.log(`Devolução realizada.`);
 };
 //Calcula o prazo para a devolução dos emprestimos e a multa por atraso
 function calcular(){
     const atual = new Date();
-
     if (livrosEmprestados.length === 0) {
         console.log("Nenhum livro emprestado para calcular.");
         return;
     };
+    //Limpa os arrays antes do calculo
+    addMulta.length = 0;
+    quitado.length = 0; 
 
     livrosEmprestados.forEach(a => {
         const dateDevolucao = new Date(a.dataEmprestimo);
@@ -156,16 +161,28 @@ function calcular(){
         };
     });
 };
-//Exibe a multa -- falta terminar
+//Exibe a multa
 function addMultas(){
-    const multa = addMulta;
-    return multa;
+    if(addMulta.length === 0){
+        console.log('Nenhuma multa pendente.');
+        return;
+    };
+    console.log(' ---- Multas pendentes ----');
+    addMulta.forEach((item, index) => {
+        console.log(`${index + 1}. Usúario: ${item.nome} - Livro: ${item.livro} - Multa: ${item.multa.toFixed(2)}`)
+    }); 
 };
-//Exibe se o usuario esta em dia -- falta terminar
+//Exibe se o usuario esta em dia
 function emdia(){
-    const emdia = quitado;
-    return emdia;
-}
+    if(quitado.length === 0){
+        console.log('Sem resistros de usúarios em dias')
+        return;
+    };
+    console.log(' ---- Em dia ----');
+    quitado.forEach((item, index) => {
+        console.log(`${index + 1}. Usúario: ${item.nome} - Livro: ${item.livro}.`)
+    });
+};
 //Relatorio das funções
 function relatorios(){
     console.log('*** Relatórios ***' );
@@ -175,4 +192,3 @@ function relatorios(){
     addMultas();
     emdia();
 };
-
