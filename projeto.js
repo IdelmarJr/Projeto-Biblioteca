@@ -146,7 +146,7 @@ function calcular(){
 
     livrosEmprestados.forEach(a => {
         const dateDevolucao = new Date(a.dataEmprestimo);
-        dateDevolucao.setDate(dateDevolucao.getDate() + 0);
+        dateDevolucao.setDate(dateDevolucao.getDate() + 7);
         const {nome, livro} = a;
 
         if(atual > dateDevolucao){
